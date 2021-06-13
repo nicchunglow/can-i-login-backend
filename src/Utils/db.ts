@@ -18,7 +18,7 @@ const connection = async () => {
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
-  console.log(`You have connected to ${dbName} server at ${dbUrl}`);
+  console.log(`You are now connect to ${dbName} server at ${dbUrl}`);
 });
 
 module.exports = connection;
