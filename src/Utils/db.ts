@@ -2,10 +2,10 @@ require("dotenv").config();
 const mongoose = require("mongoose");
 
 const mongoOptions = {
-  useNewUrlParser: true, // prevent deprecation warnings
+  useNewUrlParser: true,
   useUnifiedTopology: true,
-  useFindAndModify: false, // For find one and update
-  useCreateIndex: true, // for creating index with unique
+  useFindAndModify: false,
+  useCreateIndex: true,
 };
 
 const dbName = "CanILoginDB";
