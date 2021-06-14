@@ -102,5 +102,29 @@ describe("Events", () => {
         expect.stringContaining("createUsers validation failed")
       );
     });
+    describe("/users/login", () => {
+      it("POST user should be able to login", async () => {
+        const expectedUserData = {
+          username: "totoro",
+          password: "chocoPie123",
+        };
+        const { body: users } = await request(app)
+          .post("/users/login")
+          .send(expectedUserData)
+          .expect(201);
+        expect(users).toBe("You are now logged in!");
+      });
+      it("POST user should not login if the username or password is wrong", async () => {
+        const expectedUserData = {
+          username: "totoro",
+          password: "chocoie123",
+        };
+        const { body: error } = await request(app)
+          .post("/users/login")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual("Login failed");
+      });
+    });
   });
 });
