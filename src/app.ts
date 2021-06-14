@@ -8,6 +8,8 @@ const app = express();
 const appIndex = (req: Request, res: Response) => {
   res.send({
     0: "GET   /",
+    "1": "POST /users/register",
+    "2": "POST /users/login",
   });
 };
 
