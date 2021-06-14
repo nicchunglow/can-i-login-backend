@@ -2,7 +2,7 @@ import type { ErrorRequestHandler, Request, Response } from "express";
 require("dotenv");
 const express = require("express");
 const cors = require("cors");
-
+const usersRouter = require("../src/routes/users.route");
 const app = express();
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
@@ -34,6 +34,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", appIndex);
+app.use("/users", usersRouter);
 
 app.use(errorHandler);
 
