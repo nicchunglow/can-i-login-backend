@@ -53,7 +53,7 @@ describe("Users", () => {
   });
 
   describe("/users/register", () => {
-    it("POST should add one user with password of one lowercase, one uppercase and numbers", async () => {
+    it("POST should add a user with username, userId, password, firstName and lastName", async () => {
       const expectedUserData = {
         username: "mrliew",
         userId: "3",
@@ -92,6 +92,36 @@ describe("Users", () => {
         username: "Tororo12",
         userId: "3",
         password: "Password123",
+        firstName: "Nic",
+        lastName: "Last",
+      };
+      const { body: error } = await request(app)
+        .post("/users/register")
+        .send(expectedUserData)
+        .expect(400);
+      expect(error.error).toEqual(
+        expect.stringContaining("createUsers validation failed")
+      );
+    });
+    it("POST should not add user if there is no username", async () => {
+      const expectedUserData = {
+        userId: "3",
+        password: "Password123",
+        firstName: "Nic",
+        lastName: "Last",
+      };
+      const { body: error } = await request(app)
+        .post("/users/register")
+        .send(expectedUserData)
+        .expect(400);
+      expect(error.error).toEqual(
+        expect.stringContaining("createUsers validation failed")
+      );
+    });
+    it("POST should not add user there is no password", async () => {
+      const expectedUserData = {
+        username: "tororo12",
+        userId: "3",
         firstName: "Nic",
         lastName: "Last",
       };
