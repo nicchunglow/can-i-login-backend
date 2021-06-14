@@ -11,14 +11,9 @@ const checkEmail = function (email: string) {
     email
   );
 };
+// To check if password has 1 lowercase, 1 uppercase and 1 number
 const checkPassword = function (password: string) {
-  if (
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password) === true
-  ) {
-    return true;
-  } else {
-    return false;
-  }
+  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
 };
 const userSchema = Schema({
   email: {
