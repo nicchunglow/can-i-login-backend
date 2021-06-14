@@ -31,6 +31,11 @@ router.post(
   "/register",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const { username, password } = req.body;
+      const userExist = await usersModel.findOne({ username });
+      if (userExist) {
+        throw new Error("User exist.Please chose another username");
+      }
       const user = new usersModel(req.body);
       await usersModel.init();
       user.userId = uuidv4();
@@ -81,6 +86,8 @@ router.post(
 const userErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err.name === "ValidationError") {
     err.statusCode = 400;
+  } else if (err.message === "User exist.Please chose another username") {
+    err.statusCode = 403;
   }
   next(err);
 };

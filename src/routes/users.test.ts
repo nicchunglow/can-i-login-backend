@@ -114,9 +114,7 @@ describe("Users", () => {
         .post("/users/register")
         .send(expectedUserData)
         .expect(400);
-      expect(error.error).toEqual(
-        expect.stringContaining("createUsers validation failed")
-      );
+      expect(error.error).toEqual("Please fill in mandatory fields");
     });
     it("POST should not add user there is no password", async () => {
       const expectedUserData = {
@@ -132,6 +130,22 @@ describe("Users", () => {
       expect(error.error).toEqual(
         expect.stringContaining("createUsers validation failed")
       );
+    });
+    it.only("POST should not add a user with the same username", async () => {
+      const expectedUserData = {
+        username: "totoro",
+        userId: "3",
+        password: "Password123",
+        firstName: "Nic",
+        lastName: "Last",
+      };
+      const { body: error } = await request(app)
+        .post("/users/register")
+        .send(expectedUserData)
+        .expect(403);
+      expect(error).toEqual({
+        error: "User exist.Please chose another username",
+      });
     });
     describe("/users/login", () => {
       it("POST user should be able to login", async () => {
