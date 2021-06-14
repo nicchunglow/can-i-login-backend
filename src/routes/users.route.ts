@@ -21,11 +21,12 @@ router.post(
   }
 );
 
-router.use((err: any, req: Request, res: Response, next: NextFunction) => {
+const userErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err.name === "ValidationError") {
     err.statusCode = 400;
   }
   next(err);
-});
+};
+router.use(userErrorHandler);
 
 module.exports = router;
