@@ -26,10 +26,12 @@ router.post(
   async (req: Request, res: Response, next: NextFunction) => {
     try {
       const { email, password } = req.body;
-      const userExist = await usersModel.findOne({ email });
+      const lowerCaseEmail = email.toLowerCase();
+      const userExist = await usersModel.findOne({ lowerCaseEmail });
       if (userExist) {
         throw new Error("User exist.Please chose another email");
       }
+      req.body.email = lowerCaseEmail;
       const user = new usersModel(req.body);
       await usersModel.init();
       const newUser = await user.save();

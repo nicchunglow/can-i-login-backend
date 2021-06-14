@@ -30,13 +30,13 @@ describe("Users", () => {
   beforeEach(async () => {
     const userData = [
       {
-        email: "totoro",
+        email: "totoro@gmail.com",
         password: "Password123",
         firstName: "Nic",
         lastName: "Chung",
       },
       {
-        email: "monopolo",
+        email: "monopolo@gmail.com",
         password: "Password123",
         firstName: "Pororo",
         lastName: "Chung",
@@ -53,7 +53,7 @@ describe("Users", () => {
   describe("/users/register", () => {
     it("POST should add a user with email, password, firstName and lastName", async () => {
       const expectedUserData = {
-        email: "mrliew",
+        email: "correctemail@gmail.com",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
@@ -69,7 +69,7 @@ describe("Users", () => {
     });
     it("POST should fail with password of no uppercase and numbers", async () => {
       const expectedUserData = {
-        email: "mrliew",
+        email: "correctemail@gmail.com",
         password: "password123",
         firstName: "Nic",
         lastName: "Last",
@@ -82,20 +82,20 @@ describe("Users", () => {
         expect.stringContaining("createUsers validation failed")
       );
     });
-    it("POST should not add user if email is uppercase", async () => {
+    it.only("POST should add user if email is uppercase but turned registered as lowercase", async () => {
       const expectedUserData = {
-        email: "Tororo12",
+        email: "Correctemail@gmail.com",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
       };
-      const { body: error } = await request(app)
+      const lowerCaseEmail = expectedUserData.email.toLowerCase();
+      console.log(lowerCaseEmail);
+      const { body: users } = await request(app)
         .post("/users/register")
         .send(expectedUserData)
-        .expect(400);
-      expect(error.error).toEqual(
-        expect.stringContaining("createUsers validation failed")
-      );
+        .expect(201);
+      expect(users.email).toBe(lowerCaseEmail);
     });
     it("POST should not add user if there is no email", async () => {
       const expectedUserData = {
@@ -113,7 +113,7 @@ describe("Users", () => {
     });
     it("POST should not add user there is no password", async () => {
       const expectedUserData = {
-        email: "tororo12",
+        email: "correctemail@gmail.com",
         firstName: "Nic",
         lastName: "Last",
       };
@@ -127,7 +127,7 @@ describe("Users", () => {
     });
     it("POST should not add a user with the same email", async () => {
       const expectedUserData = {
-        email: "totoro",
+        email: "totoro@gmail.com",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
@@ -143,7 +143,7 @@ describe("Users", () => {
     describe("/users/login", () => {
       it("POST user should be able to login", async () => {
         const expectedUserData = {
-          email: "totoro",
+          email: "totoro@gmail.com",
           password: "Password123",
         };
         const { body: users } = await request(app)
@@ -154,7 +154,7 @@ describe("Users", () => {
       });
       it("POST user should not login if password is wrong", async () => {
         const expectedUserData = {
-          email: "totoro",
+          email: "totoro@gmail.com",
           password: "chocoie123",
         };
         const { body: error } = await request(app)
@@ -165,7 +165,7 @@ describe("Users", () => {
       });
       it("POST user should not login if email is wrong", async () => {
         const expectedUserData = {
-          email: "tooo",
+          email: "tooo@gmail.com",
           password: "Password123",
         };
         const { body: error } = await request(app)
