@@ -9,7 +9,13 @@ const checkUsername = function (v: string) {
   return /^(?=.*[a-z])[a-z\d]{3,}$/.test(v);
 };
 const checkPassword = function (password: string) {
-  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
+  if (
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password) === true
+  ) {
+    return true;
+  } else {
+    return false;
+  }
 };
 const userSchema = Schema({
   userId: {

@@ -1,5 +1,4 @@
 import { ErrorRequestHandler, NextFunction, Request, Response } from "express";
-
 const express = require("express");
 const router = express.Router();
 const usersModel = require("../models/users.model");
@@ -22,12 +21,11 @@ router.post(
   }
 );
 
-const hi: ErrorRequestHandler = (err, req, res, next) => {
+router.use((err: any, req: Request, res: Response, next: NextFunction) => {
   if (err.name === "ValidationError") {
     err.statusCode = 400;
   }
   next(err);
-};
-router.use(hi);
+});
 
 module.exports = router;

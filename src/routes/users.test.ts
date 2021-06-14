@@ -70,5 +70,37 @@ describe("Events", () => {
       expect(users.username).toBe(expectedUserData.username);
       expect(users.password).not.toBe("chocoPie123");
     });
+    it("POST should fail with password of no uppercase and numbers", async () => {
+      const expectedUserData = {
+        username: "mrliew",
+        userId: "3",
+        password: "chocopie123",
+        firstName: "De",
+        lastName: "Hua",
+      };
+      const { body: error } = await request(app)
+        .post("/users/register")
+        .send(expectedUserData)
+        .expect(400);
+      expect(error.error).toEqual(
+        expect.stringContaining("createUsers validation failed")
+      );
+    });
+    it("POST should not add user if username is uppercase", async () => {
+      const expectedUserData = {
+        username: "Tororo12",
+        userId: "3",
+        password: "chocoPie123",
+        firstName: "De",
+        lastName: "Hua",
+      };
+      const { body: error } = await request(app)
+        .post("/users/register")
+        .send(expectedUserData)
+        .expect(400);
+      expect(error.error).toEqual(
+        expect.stringContaining("createUsers validation failed")
+      );
+    });
   });
 });

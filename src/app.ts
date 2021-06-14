@@ -5,15 +5,6 @@ const cors = require("cors");
 const usersRouter = require("../src/routes/users.route");
 const app = express();
 
-const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
-  res.status(err.status || 500);
-  if (err.status) {
-    res.send({ error: err.message });
-  } else {
-    res.send({ error: "internal server error" });
-  }
-};
-
 const appIndex = (req: Request, res: Response) => {
   res.send({
     0: "GET   /",
@@ -35,6 +26,15 @@ app.use(express.json());
 
 app.get("/", appIndex);
 app.use("/users", usersRouter);
+
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  res.status(err.statusCode || 500);
+  if (err.statusCode) {
+    res.send({ error: err.message });
+  } else {
+    res.send({ error: "internal server error" });
+  }
+};
 
 app.use(errorHandler);
 
