@@ -53,7 +53,7 @@ describe("Users", () => {
   describe("/users/register", () => {
     it("POST should add a user with email, password, firstName and lastName", async () => {
       const expectedUserData = {
-        email: "correctemail@gmail.com",
+        email: "correctemail99@example.com",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
@@ -82,7 +82,7 @@ describe("Users", () => {
         expect.stringContaining("createUsers validation failed")
       );
     });
-    it.only("POST should add user if email is uppercase but turned registered as lowercase", async () => {
+    it("POST should add user if email is uppercase but turned registered as lowercase", async () => {
       const expectedUserData = {
         email: "Correctemail@gmail.com",
         password: "Password123",
@@ -97,8 +97,10 @@ describe("Users", () => {
         .expect(201);
       expect(users.email).toBe(lowerCaseEmail);
     });
-    it("POST should not add user if there is no email", async () => {
+
+    it("POST should not add user there is no email", async () => {
       const expectedUserData = {
+        email: "",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
@@ -114,6 +116,7 @@ describe("Users", () => {
     it("POST should not add user there is no password", async () => {
       const expectedUserData = {
         email: "correctemail@gmail.com",
+        password: "",
         firstName: "Nic",
         lastName: "Last",
       };

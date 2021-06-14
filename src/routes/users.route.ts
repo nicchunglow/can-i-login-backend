@@ -27,7 +27,7 @@ router.post(
     try {
       const { email, password } = req.body;
       const lowerCaseEmail = email.toLowerCase();
-      const userExist = await usersModel.findOne({ lowerCaseEmail });
+      const userExist = await usersModel.findOne({ email: lowerCaseEmail });
       if (userExist) {
         throw new Error("User exist.Please chose another email");
       }

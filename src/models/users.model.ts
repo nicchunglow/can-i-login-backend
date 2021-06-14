@@ -5,9 +5,10 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
 
-const checkEmail = function (v: string) {
+const checkEmail = function (email: string) {
+  //To check email string and still allow if there are capital letters
   return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g.test(
-    v
+    email
   );
 };
 const checkPassword = function (password: string) {
