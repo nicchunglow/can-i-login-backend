@@ -6,8 +6,8 @@
   "scripts": {
     "start": "ts-node src/index.ts",
     "start-dev": "nodemon src/index.ts",
-    "test": "jest",
-    "testd": "jest --detectOpenHandles",
+    "test": "jest --watchAll",
+    "testd": "jest --detectOpenHandles --watchAll",
     "testc": "jest --coverage --watchAll"
   },
   "husky": {
@@ -24,7 +24,8 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.13"
+    "mongoose": "^5.12.13",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.14.5",
