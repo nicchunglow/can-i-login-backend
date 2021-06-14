@@ -12,7 +12,7 @@ mongoose.set("useFindAndModify", false);
 mongoose.set("useCreateIndex", true);
 mongoose.set("useUnifiedTopology", true);
 
-describe("Events", () => {
+describe("Users", () => {
   let mongoServer;
   beforeAll(async () => {
     try {
@@ -114,10 +114,21 @@ describe("Events", () => {
           .expect(201);
         expect(users).toBe("You are now logged in!");
       });
-      it("POST user should not login if the username or password is wrong", async () => {
+      it("POST user should not login if password is wrong", async () => {
         const expectedUserData = {
           username: "totoro",
           password: "chocoie123",
+        };
+        const { body: error } = await request(app)
+          .post("/users/login")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual("Login failed");
+      });
+      it("POST user should not login if username is wrong", async () => {
+        const expectedUserData = {
+          username: "tooo",
+          password: "chocoPie123",
         };
         const { body: error } = await request(app)
           .post("/users/login")
