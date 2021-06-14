@@ -6,13 +6,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 
-const createJWTToken = (
-  username: string,
-  firstName: string,
-  lastName: string
-) => {
+const createJWTToken = (email: string, firstName: string, lastName: string) => {
   const payload = {
-    username: username,
+    email: email,
     firstName: firstName,
     lastName: lastName,
   };
@@ -29,10 +25,10 @@ router.post(
   "/register",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { username, password } = req.body;
-      const userExist = await usersModel.findOne({ username });
+      const { email, password } = req.body;
+      const userExist = await usersModel.findOne({ email });
       if (userExist) {
-        throw new Error("User exist.Please chose another username");
+        throw new Error("User exist.Please chose another email");
       }
       const user = new usersModel(req.body);
       await usersModel.init();
@@ -48,8 +44,8 @@ router.post(
   "/login",
   async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { username, password } = req.body;
-      const user = await usersModel.findOne({ username });
+      const { email, password } = req.body;
+      const user = await usersModel.findOne({ email });
       if (!user) {
         throw new Error("Login failed");
       }
@@ -58,11 +54,7 @@ router.post(
         throw new Error("Login failed");
       }
 
-      const token = createJWTToken(
-        user.username,
-        user.firstName,
-        user.lastName
-      );
+      const token = createJWTToken(user.email, user.firstName, user.lastName);
 
       res.cookie("token", token, {
         expires: expiryDate,
@@ -82,7 +74,7 @@ router.post(
 const userErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err.name === "ValidationError") {
     err.statusCode = 400;
-  } else if (err.message === "User exist.Please chose another username") {
+  } else if (err.message === "User exist.Please chose another email") {
     err.statusCode = 403;
   }
   next(err);

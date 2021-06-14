@@ -30,13 +30,13 @@ describe("Users", () => {
   beforeEach(async () => {
     const userData = [
       {
-        username: "totoro",
+        email: "totoro",
         password: "Password123",
         firstName: "Nic",
         lastName: "Chung",
       },
       {
-        username: "monopolo",
+        email: "monopolo",
         password: "Password123",
         firstName: "Pororo",
         lastName: "Chung",
@@ -51,9 +51,9 @@ describe("Users", () => {
   });
 
   describe("/users/register", () => {
-    it("POST should add a user with username, password, firstName and lastName", async () => {
+    it("POST should add a user with email, password, firstName and lastName", async () => {
       const expectedUserData = {
-        username: "mrliew",
+        email: "mrliew",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
@@ -62,14 +62,14 @@ describe("Users", () => {
         .post("/users/register")
         .send(expectedUserData)
         .expect(201);
-      expect(users.username).toBe(expectedUserData.username);
+      expect(users.email).toBe(expectedUserData.email);
       expect(users.firstName).toBe(expectedUserData.firstName);
       expect(users.lastName).toBe(expectedUserData.lastName);
       expect(users.password).not.toBe(expectedUserData.password);
     });
     it("POST should fail with password of no uppercase and numbers", async () => {
       const expectedUserData = {
-        username: "mrliew",
+        email: "mrliew",
         password: "password123",
         firstName: "Nic",
         lastName: "Last",
@@ -82,9 +82,9 @@ describe("Users", () => {
         expect.stringContaining("createUsers validation failed")
       );
     });
-    it("POST should not add user if username is uppercase", async () => {
+    it("POST should not add user if email is uppercase", async () => {
       const expectedUserData = {
-        username: "Tororo12",
+        email: "Tororo12",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
@@ -97,7 +97,7 @@ describe("Users", () => {
         expect.stringContaining("createUsers validation failed")
       );
     });
-    it("POST should not add user if there is no username", async () => {
+    it("POST should not add user if there is no email", async () => {
       const expectedUserData = {
         password: "Password123",
         firstName: "Nic",
@@ -113,7 +113,7 @@ describe("Users", () => {
     });
     it("POST should not add user there is no password", async () => {
       const expectedUserData = {
-        username: "tororo12",
+        email: "tororo12",
         firstName: "Nic",
         lastName: "Last",
       };
@@ -125,9 +125,9 @@ describe("Users", () => {
         expect.stringContaining("createUsers validation failed")
       );
     });
-    it("POST should not add a user with the same username", async () => {
+    it("POST should not add a user with the same email", async () => {
       const expectedUserData = {
-        username: "totoro",
+        email: "totoro",
         password: "Password123",
         firstName: "Nic",
         lastName: "Last",
@@ -137,13 +137,13 @@ describe("Users", () => {
         .send(expectedUserData)
         .expect(403);
       expect(error).toEqual({
-        error: "User exist.Please chose another username",
+        error: "User exist.Please chose another email",
       });
     });
     describe("/users/login", () => {
       it("POST user should be able to login", async () => {
         const expectedUserData = {
-          username: "totoro",
+          email: "totoro",
           password: "Password123",
         };
         const { body: users } = await request(app)
@@ -154,7 +154,7 @@ describe("Users", () => {
       });
       it("POST user should not login if password is wrong", async () => {
         const expectedUserData = {
-          username: "totoro",
+          email: "totoro",
           password: "chocoie123",
         };
         const { body: error } = await request(app)
@@ -163,9 +163,9 @@ describe("Users", () => {
           .expect(400);
         expect(error.error).toEqual("Login failed");
       });
-      it("POST user should not login if username is wrong", async () => {
+      it("POST user should not login if email is wrong", async () => {
         const expectedUserData = {
-          username: "tooo",
+          email: "tooo",
           password: "Password123",
         };
         const { body: error } = await request(app)

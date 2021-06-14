@@ -18,7 +18,7 @@ const checkPassword = function (password: string) {
   }
 };
 const userSchema = Schema({
-  username: {
+  email: {
     type: String,
     required: true,
     unique: true,
