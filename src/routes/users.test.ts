@@ -32,18 +32,16 @@ describe("Users", () => {
       {
         username: "totoro",
         userId: "1",
-        password: "chocoPie123",
+        password: "Password123",
         firstName: "Nic",
         lastName: "Chung",
-        stageName: "Jay Chou",
       },
       {
         username: "monopolo",
         userId: "2",
-        password: "chocoPie123",
+        password: "Password123",
         firstName: "Pororo",
         lastName: "Chung",
-        stageName: "Ah Du",
       },
     ];
     await userModel.create(userData);
@@ -59,24 +57,27 @@ describe("Users", () => {
       const expectedUserData = {
         username: "mrliew",
         userId: "3",
-        password: "chocoPie123",
-        firstName: "De",
-        lastName: "Hua",
+        password: "Password123",
+        firstName: "Nic",
+        lastName: "Last",
       };
       const { body: users } = await request(app)
         .post("/users/register")
         .send(expectedUserData)
         .expect(201);
       expect(users.username).toBe(expectedUserData.username);
-      expect(users.password).not.toBe("chocoPie123");
+      expect(users.firstName).toBe(expectedUserData.firstName);
+      expect(users.lastName).toBe(expectedUserData.lastName);
+      expect(users.userId).not.toBe(expectedUserData.userId);
+      expect(users.password).not.toBe(expectedUserData.password);
     });
     it("POST should fail with password of no uppercase and numbers", async () => {
       const expectedUserData = {
         username: "mrliew",
         userId: "3",
-        password: "chocopie123",
-        firstName: "De",
-        lastName: "Hua",
+        password: "password123",
+        firstName: "Nic",
+        lastName: "Last",
       };
       const { body: error } = await request(app)
         .post("/users/register")
@@ -90,9 +91,9 @@ describe("Users", () => {
       const expectedUserData = {
         username: "Tororo12",
         userId: "3",
-        password: "chocoPie123",
-        firstName: "De",
-        lastName: "Hua",
+        password: "Password123",
+        firstName: "Nic",
+        lastName: "Last",
       };
       const { body: error } = await request(app)
         .post("/users/register")
@@ -106,7 +107,7 @@ describe("Users", () => {
       it("POST user should be able to login", async () => {
         const expectedUserData = {
           username: "totoro",
-          password: "chocoPie123",
+          password: "Password123",
         };
         const { body: users } = await request(app)
           .post("/users/login")
@@ -128,7 +129,7 @@ describe("Users", () => {
       it("POST user should not login if username is wrong", async () => {
         const expectedUserData = {
           username: "tooo",
-          password: "chocoPie123",
+          password: "Password123",
         };
         const { body: error } = await request(app)
           .post("/users/login")
