@@ -10,6 +10,7 @@
     "esModuleInterop": true,
     "moduleResolution": "node",
     "sourceMap": true,
-    "outDir": "dist"
+    "outDir": "dist",
+    "noImplicitThis": false
   }
 }
