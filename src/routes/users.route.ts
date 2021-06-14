@@ -6,8 +6,18 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
 
-const createJWTToken = (username: string, userId: string) => {
-  const payload = { username: username, userId: userId };
+const createJWTToken = (
+  username: string,
+  userId: string,
+  firstName: string,
+  lastName: string
+) => {
+  const payload = {
+    username: username,
+    userId: userId,
+    firstName: firstName,
+    lastName: lastName,
+  };
   const token = jwt.sign(payload, process.env.JWT_SECRET_KEY);
   return token;
 };
@@ -46,7 +56,12 @@ router.post(
         throw new Error("Login failed");
       }
 
-      const token = createJWTToken(user.username, user.userId);
+      const token = createJWTToken(
+        user.username,
+        user.userId,
+        user.firstName,
+        user.lastName
+      );
 
       res.cookie("token", token, {
         expires: expiryDate,
