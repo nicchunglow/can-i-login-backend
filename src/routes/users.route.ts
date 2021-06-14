@@ -8,13 +8,11 @@ const { v4: uuidv4 } = require("uuid");
 
 const createJWTToken = (
   username: string,
-  userId: string,
   firstName: string,
   lastName: string
 ) => {
   const payload = {
     username: username,
-    userId: userId,
     firstName: firstName,
     lastName: lastName,
   };
@@ -38,7 +36,6 @@ router.post(
       }
       const user = new usersModel(req.body);
       await usersModel.init();
-      user.userId = uuidv4();
       const newUser = await user.save();
       res.status(201).send(newUser);
     } catch (err) {
@@ -63,7 +60,6 @@ router.post(
 
       const token = createJWTToken(
         user.username,
-        user.userId,
         user.firstName,
         user.lastName
       );

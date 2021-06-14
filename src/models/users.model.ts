@@ -18,13 +18,6 @@ const checkPassword = function (password: string) {
   }
 };
 const userSchema = Schema({
-  userId: {
-    type: String,
-    required: true,
-    minlength: 1,
-    unique: true,
-    immutable: true,
-  },
   username: {
     type: String,
     required: true,
