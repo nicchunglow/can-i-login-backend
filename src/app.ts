@@ -19,7 +19,7 @@ const corsOptions = {
     "http://localhost:3000",
     "http://localhost:3001",
   ],
-  allowedHeaders: "content-type.cookie",
+  allowedHeaders: "content-type",
   credentials: true,
 };
 
