@@ -4,7 +4,7 @@ export {};
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
-
+const passwordValidator = require("../utils/validators");
 const checkEmail = function (email: string) {
   //To check email string and still allow if there are capital letters
   return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g.test(
@@ -12,8 +12,7 @@ const checkEmail = function (email: string) {
   );
 };
 const checkPassword = function (password: string) {
-  // To check if password has 1 lowercase, 1 uppercase and 1 number
-  return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/.test(password);
+  return passwordValidator(password);
 };
 const userSchema = Schema({
   email: {
