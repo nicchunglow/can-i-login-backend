@@ -74,6 +74,7 @@ router.post(
 const userErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err.name === "ValidationError") {
     err.statusCode = 400;
+    err.message = "Registration failed. Please try again.";
   } else if (err.message === "User exist.Please chose another email") {
     err.statusCode = 403;
   }

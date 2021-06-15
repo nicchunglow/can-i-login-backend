@@ -80,7 +80,7 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
         );
       });
       it("POST should fail with password of no lowercase", async () => {
@@ -95,7 +95,7 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
         );
       });
 
@@ -111,7 +111,7 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
         );
       });
       it("POST should not add user if password less than 8 characters", async () => {
@@ -126,7 +126,22 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
+        );
+      });
+      it("POST should not add user if password has spaces", async () => {
+        const expectedUserData = {
+          email: "correctemail@gmail.com",
+          password: "Passw o1",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("Registration failed")
         );
       });
     });
@@ -144,7 +159,7 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
         );
       });
       it("POST should not add user if email is less than 8 characters", async () => {
@@ -159,7 +174,7 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
         );
       });
       it("POST should not add user there is no email", async () => {
@@ -174,7 +189,7 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
         );
       });
       it("POST should not add a user with the same email", async () => {
@@ -204,7 +219,22 @@ describe("Users", () => {
           .send(expectedUserData)
           .expect(400);
         expect(error.error).toEqual(
-          expect.stringContaining("createUsers validation failed")
+          expect.stringContaining("Registration failed")
+        );
+      });
+      it("POST should not add a user with space in email", async () => {
+        const expectedUserData = {
+          email: "spaces@gm ail.com",
+          password: "Password123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("Registration failed")
         );
       });
     });

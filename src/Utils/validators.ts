@@ -14,7 +14,12 @@ const passwordValidator = (password: string) => {
       uppercase++;
     }
   });
-  if (numberCounter === 0 || lowercase === 0 || uppercase === 0) {
+  if (
+    numberCounter === 0 ||
+    lowercase === 0 ||
+    uppercase === 0 ||
+    password.includes(" ")
+  ) {
     return false;
   } else {
     return true;
@@ -22,7 +27,7 @@ const passwordValidator = (password: string) => {
 };
 
 const specialCharacterCheck = (character: string) => {
-  const specialCharacterList = " + * ? [ ^ ] $ ( ) { } = ! < > | : -";
+  const specialCharacterList = "+*?[^]$(){}=!<>|:";
   if (specialCharacterList.includes(character)) {
     return false;
   }
@@ -47,7 +52,8 @@ const emailValidator = (email: string) => {
   return atSymbol !== 1 ||
     punctuationSymbol !== 1 ||
     uppercase !== 0 ||
-    email.length < 8
+    email.length < 8 ||
+    email.includes(" ")
     ? false
     : true;
 };
