@@ -13,6 +13,8 @@ const appIndex = (req: Request, res: Response) => {
     0: "GET   /",
     "1": "POST /users/register",
     "2": "POST /users/login",
+    "3": "GET /reports",
+    "4": "GET /auth",
   });
 };
 
