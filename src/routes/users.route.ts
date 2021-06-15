@@ -35,6 +35,9 @@ router.post(
       const newUser = await user.save();
       res.status(201).send(newUser);
     } catch (err) {
+      if (err.message !== "User exist.Please chose another email") {
+        err.message = "Registration failed. Please try again.";
+      }
       next(err);
     }
   }
@@ -74,7 +77,6 @@ router.post(
 const userErrorHandler: ErrorRequestHandler = (err, req, res, next) => {
   if (err.name === "ValidationError") {
     err.statusCode = 400;
-    err.message = "Registration failed. Please try again.";
   } else if (err.message === "User exist.Please chose another email") {
     err.statusCode = 403;
   }
