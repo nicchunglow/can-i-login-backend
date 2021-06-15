@@ -44,7 +44,7 @@ describe("Reports", () => {
     await userModel.deleteMany();
   });
 
-  describe("/reports", () => {
+  describe("/", () => {
     it("GET should show success message if user has logined", async () => {
       jwt.verify.mockReturnValueOnce({ email: "totoro@gmail.com" });
       const expectedResult = {
