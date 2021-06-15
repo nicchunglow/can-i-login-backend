@@ -1,4 +1,7 @@
 const passwordValidator = (password: string) => {
+  if (password.length <= 8) {
+    return false;
+  }
   let numberCounter = 0;
   let lowercase = 0;
   let uppercase = 0;
