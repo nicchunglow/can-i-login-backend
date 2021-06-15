@@ -21,15 +21,18 @@ const passwordValidator = (password: string) => {
   }
 };
 
-const specialCharacterList = [" + * ? [ ^ ] $ ( ) { } = ! < > | : -"];
+const specialCharacterCheck = (character: string) => {
+  const specialCharacterList = " + * ? [ ^ ] $ ( ) { } = ! < > | : -";
+  if (specialCharacterList.includes(character)) {
+    return false;
+  }
+};
 const emailValidator = (email: string) => {
   let atSymbol: number = 0;
   let punctuationSymbol: number = 0;
   let uppercase: number = 0;
   email.split("").forEach((character: any) => {
-    if (specialCharacterList.includes(character)) {
-      console.log(character, "HELP");
-    }
+    specialCharacterCheck(character);
     if (character === "@") {
       atSymbol++;
     } else if (character === ".") {
