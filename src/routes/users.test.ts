@@ -162,6 +162,21 @@ describe("Users", () => {
           error: "User exist.Please chose another email",
         });
       });
+      it("POST should not add a user with symbols in email", async () => {
+        const expectedUserData = {
+          email: "&%!@gmail.com",
+          password: "Password123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
+      });
     });
 
     describe("/users/login", () => {

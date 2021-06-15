@@ -21,11 +21,15 @@ const passwordValidator = (password: string) => {
   }
 };
 
+const specialCharacterList = [" + * ? [ ^ ] $ ( ) { } = ! < > | : -"];
 const emailValidator = (email: string) => {
   let atSymbol: number = 0;
   let punctuationSymbol: number = 0;
   let uppercase: number = 0;
   email.split("").forEach((character: any) => {
+    if (specialCharacterList.includes(character)) {
+      console.log(character, "HELP");
+    }
     if (character === "@") {
       atSymbol++;
     } else if (character === ".") {
