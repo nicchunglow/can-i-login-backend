@@ -1,9 +1,11 @@
 import type { ErrorRequestHandler, Request, Response } from "express";
 require("dotenv");
 const express = require("express");
-const cors = require("cors");
-const usersRouter = require("../src/routes/users.route");
 const app = express();
+const cookieParser = require("cookie-parser");
+const usersRouter = require("../src/routes/users.route");
+const reportsRouter = require("../src/routes/reports.route");
+const cors = require("cors");
 
 const appIndex = (req: Request, res: Response) => {
   res.send({
@@ -22,12 +24,13 @@ const corsOptions = {
   allowedHeaders: "content-type",
   credentials: true,
 };
-
-app.use(cors(corsOptions));
+app.use(cookieParser());
 app.use(express.json());
+app.use(cors(corsOptions));
 
 app.get("/", appIndex);
 app.use("/users", usersRouter);
+app.use("/reports", reportsRouter);
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   res.status(err.statusCode || 500);

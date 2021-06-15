@@ -16,10 +16,9 @@ const createJWTToken = (email: string, firstName: string, lastName: string) => {
   return token;
 };
 
-const oneDay = 24 * 60 * 60 * 1000;
-const oneWeek = oneDay * 7;
+const thirtyMins = 30 * 60 * 1000;
 
-const expiryDate = new Date(Date.now() + oneWeek);
+const expiryDate = new Date(Date.now() + thirtyMins);
 
 router.post(
   "/register",
