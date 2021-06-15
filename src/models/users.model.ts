@@ -31,7 +31,6 @@ const userSchema = Schema({
   },
   firstName: String,
   lastName: String,
-  stageName: String,
 });
 
 userSchema.pre("save", async function (next: NextFunction) {
