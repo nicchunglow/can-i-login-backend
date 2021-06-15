@@ -47,7 +47,7 @@ const emailValidator = (email: string) => {
   return atSymbol !== 1 ||
     punctuationSymbol !== 1 ||
     uppercase !== 0 ||
-    email.length <= 8
+    email.length < 8
     ? false
     : true;
 };

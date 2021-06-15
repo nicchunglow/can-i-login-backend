@@ -114,12 +114,42 @@ describe("Users", () => {
           expect.stringContaining("createUsers validation failed")
         );
       });
+      it("POST should not add user if password less than 8 characters", async () => {
+        const expectedUserData = {
+          email: "correctemail@gmail.com",
+          password: "Passwo1",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
+      });
     });
 
     describe("email", () => {
       it("POST should not add user if email has uppercase", async () => {
         const expectedUserData = {
           email: "CORRECTEMAIL@gmail.com",
+          password: "Password123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
+      });
+      it("POST should not add user if email is less than 8 characters", async () => {
+        const expectedUserData = {
+          email: "@xyz.co",
           password: "Password123",
           firstName: "Nic",
           lastName: "Last",
