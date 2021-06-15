@@ -67,82 +67,103 @@ describe("Users", () => {
       expect(users.lastName).toBe(expectedUserData.lastName);
       expect(users.password).not.toBe(expectedUserData.password);
     });
-    it("POST should fail with password of no uppercase and numbers", async () => {
-      const expectedUserData = {
-        email: "correctemail@gmail.com",
-        password: "password123",
-        firstName: "Nic",
-        lastName: "Last",
-      };
-      const { body: error } = await request(app)
-        .post("/users/register")
-        .send(expectedUserData)
-        .expect(400);
-      expect(error.error).toEqual(
-        expect.stringContaining("createUsers validation failed")
-      );
-    });
-    it("POST should add user if email is uppercase but turned registered as lowercase", async () => {
-      const expectedUserData = {
-        email: "Correctemail@gmail.com",
-        password: "Password123",
-        firstName: "Nic",
-        lastName: "Last",
-      };
-      const lowerCaseEmail = expectedUserData.email.toLowerCase();
-      console.log(lowerCaseEmail);
-      const { body: users } = await request(app)
-        .post("/users/register")
-        .send(expectedUserData)
-        .expect(201);
-      expect(users.email).toBe(lowerCaseEmail);
-    });
+    describe("password", () => {
+      it("POST should fail with password of no uppercase and numbers", async () => {
+        const expectedUserData = {
+          email: "correctemail@gmail.com",
+          password: "password123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
+      });
+      it("POST should fail with password of no lowercase", async () => {
+        const expectedUserData = {
+          email: "correctemail@gmail.com",
+          password: "PASSWORD123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
+      });
 
-    it("POST should not add user there is no email", async () => {
-      const expectedUserData = {
-        email: "",
-        password: "Password123",
-        firstName: "Nic",
-        lastName: "Last",
-      };
-      const { body: error } = await request(app)
-        .post("/users/register")
-        .send(expectedUserData)
-        .expect(400);
-      expect(error.error).toEqual(
-        expect.stringContaining("createUsers validation failed")
-      );
-    });
-    it("POST should not add user there is no password", async () => {
-      const expectedUserData = {
-        email: "correctemail@gmail.com",
-        password: "",
-        firstName: "Nic",
-        lastName: "Last",
-      };
-      const { body: error } = await request(app)
-        .post("/users/register")
-        .send(expectedUserData)
-        .expect(400);
-      expect(error.error).toEqual(
-        expect.stringContaining("createUsers validation failed")
-      );
-    });
-    it("POST should not add a user with the same email", async () => {
-      const expectedUserData = {
-        email: "totoro@gmail.com",
-        password: "Password123",
-        firstName: "Nic",
-        lastName: "Last",
-      };
-      const { body: error } = await request(app)
-        .post("/users/register")
-        .send(expectedUserData)
-        .expect(403);
-      expect(error).toEqual({
-        error: "User exist.Please chose another email",
+      it("POST should not add user there is no password", async () => {
+        const expectedUserData = {
+          email: "correctemail@gmail.com",
+          password: "",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
       });
     });
+
+    describe("email", () => {
+      it("POST should not add user if email has uppercase", async () => {
+        const expectedUserData = {
+          email: "CORRECTEMAIL@gmail.com",
+          password: "Password123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
+      });
+      it("POST should not add user there is no email", async () => {
+        const expectedUserData = {
+          email: "",
+          password: "Password123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(400);
+        expect(error.error).toEqual(
+          expect.stringContaining("createUsers validation failed")
+        );
+      });
+      it("POST should not add a user with the same email", async () => {
+        const expectedUserData = {
+          email: "totoro@gmail.com",
+          password: "Password123",
+          firstName: "Nic",
+          lastName: "Last",
+        };
+        const { body: error } = await request(app)
+          .post("/users/register")
+          .send(expectedUserData)
+          .expect(403);
+        expect(error).toEqual({
+          error: "User exist.Please chose another email",
+        });
+      });
+    });
+
     describe("/users/login", () => {
       it("POST user should be able to login", async () => {
         const expectedUserData = {

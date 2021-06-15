@@ -1,15 +1,14 @@
+export {};
 import { NextFunction } from "express";
 
-export {};
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const bcrypt = require("bcryptjs");
-const passwordValidator = require("../utils/validators");
+const { emailValidator, passwordValidator } = require("../utils/validators");
+
 const checkEmail = function (email: string) {
   //To check email string and still allow if there are capital letters
-  return /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g.test(
-    email
-  );
+  return emailValidator(email);
 };
 const checkPassword = function (password: string) {
   return passwordValidator(password);
