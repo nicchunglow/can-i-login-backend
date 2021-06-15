@@ -5,6 +5,7 @@ const app = express();
 const cookieParser = require("cookie-parser");
 const usersRouter = require("../src/routes/users.route");
 const reportsRouter = require("../src/routes/reports.route");
+const authRouter = require("../src/routes/auth.route");
 const cors = require("cors");
 
 const appIndex = (req: Request, res: Response) => {
@@ -31,6 +32,7 @@ app.use(cors(corsOptions));
 app.get("/", appIndex);
 app.use("/users", usersRouter);
 app.use("/reports", reportsRouter);
+app.use("/auth", authRouter);
 
 const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
   res.status(err.statusCode || 500);
