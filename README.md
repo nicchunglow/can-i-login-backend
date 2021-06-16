@@ -169,8 +169,8 @@ This is a auth api to show that you are a user at the home page.
 You will not need any req.body for this api. 
 
 ## Environment Variables
-
-- FRONTEND_URL="http://localhost:3001" <- example url 
+- PORT=3000 <- example
+- FRONTEND_URL="http://localhost:3001" <- example 
 - MONGODB_URI="mongodb://localhost:27017/CanILoginDB" <- example local db.
 - JWT_SECRET_KEY = //this is to be generated and used for the jwt signing.
 
