@@ -1,61 +1,49 @@
 const passwordValidator = (password: string) => {
-  if (password.length <= 8) {
-    return false;
-  }
-  let numberCounter = 0;
-  let lowercase = 0;
-  let uppercase = 0;
-  password.split("").forEach((character: any) => {
-    if (isNaN(character) === false) {
-      numberCounter++;
-    } else if (character === character.toLowerCase()) {
-      lowercase++;
-    } else if (character === character.toUpperCase()) {
-      uppercase++;
-    }
-  });
-  if (
-    numberCounter === 0 ||
-    lowercase === 0 ||
-    uppercase === 0 ||
-    password.includes(" ")
-  ) {
-    return false;
-  } else {
-    return true;
-  }
+	if (password.length <= 8) {
+		return false;
+	}
+	let numberCounter = 0;
+	let lowercase = 0;
+	let uppercase = 0;
+	password.split("").forEach((character: any) => {
+		if (isNaN(character) === false) {
+			numberCounter++;
+		} else if (character === character.toLowerCase()) {
+			lowercase++;
+		} else if (character === character.toUpperCase()) {
+			uppercase++;
+		}
+	});
+	if (numberCounter === 0 || lowercase === 0 || uppercase === 0 || password.includes(" ")) {
+		return false;
+	} else {
+		return true;
+	}
 };
 
 const specialCharacterCheck = (character: string) => {
-  const specialCharacterList = "+*?[^]$(){}=!<>|:";
-  if (specialCharacterList.includes(character)) {
-    return false;
-  }
+	const specialCharacterList = "+*?[^]$(){}=!<>|:";
+	if (specialCharacterList.includes(character)) {
+		return false;
+	}
 };
 const emailValidator = (email: string) => {
-  let atSymbol: number = 0;
-  let punctuationSymbol: number = 0;
-  let uppercase: number = 0;
-  email.split("").forEach((character: any) => {
-    specialCharacterCheck(character);
-    if (character === "@") {
-      atSymbol++;
-    } else if (character === ".") {
-      punctuationSymbol++;
-    } else if (
-      isNaN(character) === true &&
-      character === character.toUpperCase()
-    ) {
-      uppercase++;
-    }
-  });
-  return atSymbol !== 1 ||
-    punctuationSymbol !== 1 ||
-    uppercase !== 0 ||
-    email.length < 8 ||
-    email.includes(" ")
-    ? false
-    : true;
+	let atSymbol: number = 0;
+	let punctuationSymbol: number = 0;
+	let uppercase: number = 0;
+	email.split("").forEach((character: any) => {
+		specialCharacterCheck(character);
+		if (character === "@") {
+			atSymbol++;
+		} else if (character === ".") {
+			punctuationSymbol++;
+		} else if (isNaN(character) === true && character === character.toUpperCase()) {
+			uppercase++;
+		}
+	});
+	return atSymbol !== 1 || punctuationSymbol !== 1 || uppercase !== 0 || email.length < 8 || email.includes(" ")
+		? false
+		: true;
 };
 
 module.exports = { emailValidator, passwordValidator };
