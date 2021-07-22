@@ -8,11 +8,13 @@
     "start-dev": "nodemon src/index.ts",
     "test": "jest --watchAll",
     "testd": "jest --detectOpenHandles --watchAll",
-    "testc": "jest --coverage --watchAll"
+    "testc": "jest --coverage --watchAll",
+    "lint": "eslint src"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged"
+      "pre-commit": "pretty-quick --staged",
+      "pre-push": "npm run lint"
     }
   },
   "author": "",
