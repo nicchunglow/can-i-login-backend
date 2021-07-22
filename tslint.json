@@ -17,7 +17,8 @@
 		"no-consecutive-blank-lines": false,
 		"no-console": false,
 		"trailing-comma": [true, { "multiline": "always", "singleline": "never" }],
-		"no-var-requires": false
+		"no-var-requires": false,
+		"object-literal-shorthand": false
 	},
 	"rulesDirectory": []
 }
